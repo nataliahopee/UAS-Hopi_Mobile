@@ -3,46 +3,44 @@ import 'package:http/http.dart' as http;
 
 class Booking {
   int id;
-  String nama_booking;
-  String keterangan;
-  String created_at;
-  String updated_at;
-  String kapasitas;
+  String user_id;
+  String ruangan_id;
+  String start_book;
+  String end_book;
 
   static final http.Client client = http.Client();
 
-  Booking(
-      {this.id = 0,
-      required this.nama_booking,
-      required this.keterangan,
-      required this.kapasitas,
-      required this.created_at,
-      required this.updated_at});
+  Booking({
+    this.id = 0,
+    required this.user_id,
+    required this.ruangan_id,
+    required this.start_book,
+    required this.end_book,
+  });
 
   factory Booking.fromJson(Map<String, dynamic> map) {
     return Booking(
-        id: map["id"],
-        nama_booking: map["nama_booking"],
-        keterangan: map["keterangan"],
-        kapasitas: map["kapasitas"],
-        created_at: map["created_at"],
-        updated_at: map["updated_at"]);
+      id: map["id"],
+      user_id: map["user_id"],
+      ruangan_id: map["ruangan_id"],
+      start_book: map["start_book"],
+      end_book: map["end_book"],
+    );
   }
 
   Map<String, dynamic> toJson() {
     return {
       "id": id,
-      "nama_booking": nama_booking,
-      "keterangan": keterangan,
-      "kapasitas": kapasitas,
-      "created_at": created_at,
-      "updated_at": updated_at
+      "user_id": user_id,
+      "ruangan_id": ruangan_id,
+      "start_book": start_book,
+      "end_book": end_book,
     };
   }
 
   @override
   String toString() {
-    return 'Booking{id: $id, nama_booking: $nama_booking, keterangan: $keterangan, created_at: $created_at, "updated_at": $updated_at }';
+    return 'Booking{id: $id, user_id: $user_id, ruangan_id: $ruangan_id, start_book: $start_book, "end_book": $end_book }';
   }
 
   static void dispose() {

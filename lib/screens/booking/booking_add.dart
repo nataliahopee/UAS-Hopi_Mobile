@@ -17,9 +17,10 @@ class BookingAddScreen extends StatefulWidget {
 
 class _BookingAddScreenState extends State<BookingAddScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController bookingController = TextEditingController();
-  final TextEditingController kapasitasController = TextEditingController();
-  final TextEditingController keteranganController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+  final TextEditingController ruanganIdController = TextEditingController();
+  final TextEditingController startBookController = TextEditingController();
+  final TextEditingController endBookController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   String accesstoken = '';
 
@@ -48,9 +49,10 @@ class _BookingAddScreenState extends State<BookingAddScreen> {
       ));
 
       Map<String, dynamic> bookingData = {
-        "nama_booking": bookingController.text,
-        "kapasitas": kapasitasController.text,
-        "keterangan": keteranganController.text
+        "user_id": userIdController.text,
+        "ruangan_id": ruanganIdController.text,
+        "start_book": startBookController.text,
+        "end_book": endBookController.text,
       };
 
       final res = await _apiClient.addBooking(accesstoken, bookingData);
@@ -108,7 +110,7 @@ class _BookingAddScreenState extends State<BookingAddScreen> {
                     //   SizedBox(height: size.height * 0.08),
                     const Center(
                       child: Text(
-                        "Tambah Ruangan",
+                        "Tambah Booking",
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -120,22 +122,10 @@ class _BookingAddScreenState extends State<BookingAddScreen> {
                     SizedBox(height: size.height * 0.03),
                     TextFormField(
                       validator: (value) => Validator.validateText(value ?? ""),
-                      controller: bookingController,
+                      controller: userIdController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: "Name Booking",
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.03),
-                    TextFormField(
-                      controller: kapasitasController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "Kapasitas Booking",
+                        hintText: "User ID",
                         isDense: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -145,10 +135,36 @@ class _BookingAddScreenState extends State<BookingAddScreen> {
                     SizedBox(height: size.height * 0.03),
                     TextFormField(
                       validator: (value) => Validator.validateText(value ?? ""),
-                      controller: keteranganController,
+                      controller: ruanganIdController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: "Keterangan",
+                        hintText: "Ruangan ID",
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    TextFormField(
+                      validator: (value) => Validator.validateText(value ?? ""),
+                      controller: startBookController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "Start Book",
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    TextFormField(
+                      validator: (value) => Validator.validateText(value ?? ""),
+                      controller: endBookController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "End Book",
                         isDense: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),

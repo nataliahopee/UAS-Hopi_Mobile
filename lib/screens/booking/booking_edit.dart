@@ -8,11 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 final GlobalKey<ScaffoldState> _scaffoldState = GlobalKey<ScaffoldState>();
 
-// ignore: must_be_immutable
 class BookingEditScreen extends StatefulWidget {
-  // const BookingEditScreen({Key? key}) : super(key: key);
-
-  Booking booking;
+  final Booking booking;
 
   BookingEditScreen({required this.booking});
 
@@ -22,9 +19,10 @@ class BookingEditScreen extends StatefulWidget {
 
 class _BookingEditScreenState extends State<BookingEditScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController bookingController = TextEditingController();
-  final TextEditingController kapasitasController = TextEditingController();
-  final TextEditingController keteranganController = TextEditingController();
+  final TextEditingController userIdController = TextEditingController();
+  final TextEditingController ruanganIdController = TextEditingController();
+  final TextEditingController startBookController = TextEditingController();
+  final TextEditingController endBookController = TextEditingController();
   final ApiClient _apiClient = ApiClient();
   String accesstoken = '';
   int id = 0;
@@ -33,9 +31,10 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
   void initState() {
     super.initState();
 
-    bookingController.text = widget.booking.nama_booking;
-    kapasitasController.text = widget.booking.kapasitas;
-    keteranganController.text = widget.booking.keterangan;
+    userIdController.text = widget.booking.user_id;
+    ruanganIdController.text = widget.booking.ruangan_id;
+    startBookController.text = widget.booking.start_book.toString();
+    endBookController.text = widget.booking.end_book.toString();
     setState(() {
       id = widget.booking.id;
     });
@@ -53,7 +52,7 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
     }
   }
 
-  Future<void> addBooking() async {
+  Future<void> updateBooking() async {
     if (_formKey.currentState!.validate()) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Processing Data'),
@@ -61,9 +60,10 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
       ));
 
       Map<String, dynamic> bookingData = {
-        "nama_booking": bookingController.text,
-        "kapasitas": kapasitasController.text,
-        "keterangan": keteranganController.text
+        "user_id": userIdController.text,
+        "ruangan_id": ruanganIdController.text,
+        "start_book": startBookController.text,
+        "end_book": endBookController.text,
       };
 
       final res = await _apiClient.updateBooking(
@@ -119,7 +119,6 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    //   SizedBox(height: size.height * 0.08),
                     const Center(
                       child: Text(
                         "Edit Booking",
@@ -130,26 +129,13 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
                       ),
                     ),
                     SizedBox(height: size.height * 0.05),
-
                     SizedBox(height: size.height * 0.03),
                     TextFormField(
                       validator: (value) => Validator.validateText(value ?? ""),
-                      controller: bookingController,
+                      controller: userIdController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: "Name Booking",
-                        isDense: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: size.height * 0.03),
-                    TextFormField(
-                      controller: kapasitasController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        hintText: "Kapasitas Booking",
+                        hintText: "User ID",
                         isDense: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -159,10 +145,36 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
                     SizedBox(height: size.height * 0.03),
                     TextFormField(
                       validator: (value) => Validator.validateText(value ?? ""),
-                      controller: keteranganController,
+                      controller: ruanganIdController,
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
-                        hintText: "Keterangan",
+                        hintText: "Ruangan ID",
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    TextFormField(
+                      validator: (value) => Validator.validateText(value ?? ""),
+                      controller: startBookController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "Start Book",
+                        isDense: true,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.03),
+                    TextFormField(
+                      validator: (value) => Validator.validateText(value ?? ""),
+                      controller: endBookController,
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                        hintText: "End Book",
                         isDense: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -173,7 +185,7 @@ class _BookingEditScreenState extends State<BookingEditScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: addBooking,
+                        onPressed: updateBooking,
                         style: ElevatedButton.styleFrom(
                             primary: Colors.indigo,
                             shape: RoundedRectangleBorder(

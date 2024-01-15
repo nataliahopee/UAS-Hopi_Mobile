@@ -36,16 +36,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
         "role": "user",
       };
 
-      dynamic res = await _apiClient.registerUser(userData);
+      await _apiClient.registerUser(userData);
 
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
 
-      if (res['ErrorCode'] == null) {
+      try {
+        await _apiClient.registerUser(userData);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoginScreen()));
-      } else {
+      } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Error: ${res['Message']}'),
+          content: Text('Error: ${error.toString()}'),
           backgroundColor: Colors.red.shade300,
         ));
       }

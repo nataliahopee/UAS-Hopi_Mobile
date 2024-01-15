@@ -80,11 +80,14 @@ class BookingsScreenState extends State<BookingScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      booking.nama_booking,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      'User ID: ${booking.user_id}',
+                      style: Theme.of(context).textTheme.headline6,
                     ),
-                    Text(booking.keterangan),
-                    Text('Kapasitas : ${booking.kapasitas}'),
+                    Text('Ruangan : ${booking.ruangan_id}'),
+                    Text(
+                        'Start Book : ${DateTime.parse(booking.start_book).toLocal()}'),
+                    Text(
+                        'End Book : ${DateTime.parse(booking.end_book).toLocal()}'),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: <Widget>[
@@ -96,7 +99,7 @@ class BookingsScreenState extends State<BookingScreen> {
                                   return AlertDialog(
                                     title: Text("Warning"),
                                     content: Text(
-                                        "Are you sure want to delete data booking ${booking.nama_booking}?"),
+                                        "Are you sure want to delete data booking ${booking.user_id}?"),
                                     actions: <Widget>[
                                       TextButton(
                                         child: Text("Yes"),

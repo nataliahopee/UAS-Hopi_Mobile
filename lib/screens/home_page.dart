@@ -1,6 +1,6 @@
 import 'package:uashopi_mobile/screens/home.dart';
 import 'package:uashopi_mobile/screens/ruangan/ruangan_screen.dart';
-// import 'package:uashopi_mobile/screens/booking/booking_screen.dart';
+import 'package:uashopi_mobile/screens/booking/booking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +30,17 @@ class _HomePageState extends State<HomePage> {
         token = data;
       });
     }
+    // Optionally, provide a default value if the token is null
+    // else {
+    //   setState(() {
+    //     token = 'defaultAccessToken';
+    //   });
+    // }
+  }
+
+  void navigateToBookingScreen() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => BookingScreen()));
   }
 
   @override
@@ -39,6 +50,11 @@ class _HomePageState extends State<HomePage> {
         onDestinationSelected: (int index) {
           setState(() {
             currentPageIndex = index;
+
+            // Navigasi ke halaman BookingScreen saat item Booking dipilih
+            if (index == 2) {
+              navigateToBookingScreen();
+            }
           });
         },
         // indicatorColor: Colors.amber[800],
@@ -63,6 +79,7 @@ class _HomePageState extends State<HomePage> {
       body: <Widget>[
         const HomeScreen(),
         RuanganScreen(),
+        BookingScreen(),
         Container(
           color: Colors.blue,
           alignment: Alignment.center,
